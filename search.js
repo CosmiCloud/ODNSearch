@@ -14,6 +14,13 @@ module.exports ={
 	  // initialize connection to your DKG Node
       let options = { endpoint: OT_NODE_HOSTNAME, port: OT_NODE_PORT, useSSL: false, loglevel: 'info' };
       const dkg = new DKGClient(options);
+	    
+      // get info about endpoint that you are connected to
+      await dkg.nodeInfo().then((result) => {
+        console.log('\x1b[35mDisable SSL as self signed certs cannot be used with V6 Beta.')
+        console.log('\x1b[35mCurrently running OT Node version: \x1b[32m'+result.version)
+        console.log(' ')
+      });
 	  
       var response = await prompts({
         type: 'text',
@@ -45,7 +52,7 @@ module.exports ={
         console.log('\x1b[35mSearching the ODN for \x1b[32m'+type+' \x1b[35mthat match: \x1b[32m'+search_term+'\x1b[35m.')
         options = { query: search_term, resultType: type };
 
-		dkg.search(options).then((result) => {
+		await dkg.search(options).then((result) => {
 			if(result.status == 'FAILED'){
             console.log('\x1b[31mSearch Failed!')
             console.log('\x1b[35m',result.error)
