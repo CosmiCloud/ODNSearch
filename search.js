@@ -29,7 +29,7 @@ module.exports ={
       });
 
       if(response.response){
-        var search_term = response.response
+        var search_term = `'${response.response}'`
 
         console.log('\x1b[35mEntities -   [1]')
         console.log('\x1b[35mAssertions - [2]')
